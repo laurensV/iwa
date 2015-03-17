@@ -8,18 +8,19 @@ $occ = $_GET['q'];
 require_once ("../libraries/sparqllib.php");
 
 $sparql = <<<SPARQL
-PREFIX ont: <http://dbpedia.org/ontology/> 
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/> 
 PREFIX dbprop: <http://dbpedia.org/property/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
 PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#> 
-SELECT ?name ?date WHERE { 
-   ?t ont:occupation <{$occ}> .
-   ?t ont:birthDate ?date. 
-   ?t foaf:name ?name . 
-   ?t a ont:Person
-  
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX category: <http://dbpedia.org/resource/Category:>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT DISTINCT ?person WHERE { 
+   ?occ dcterms:subject <{$occ}> .
+   {?person dbprop:occupation ?occ. } union
+   {?person dbpedia-owl:occupation ?occ. }
 }
-LIMIT 10000000
 SPARQL;
 
 $data = sparql_get("http://dbpedia.org/sparql", $sparql);
