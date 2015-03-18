@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-require_once("../libraries/EasyRdf.php");
+require_once("libraries/EasyRdf.php");
 
 use \EasyRdf_Graph as Graph;
 use \EasyRdf_GraphStore as GraphStore;
