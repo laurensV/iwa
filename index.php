@@ -9,6 +9,7 @@ require_once("libraries/sparqllib.php")
         <title>IWA final project</title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/JavaScript" src="js/js.js"></script> 
     </head>
     <body>

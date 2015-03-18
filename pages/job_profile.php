@@ -63,6 +63,8 @@ if (!isset($data)) {
     $persons_table.= "</table>";
 
     print "<h2>$occ_name Profile</h2>";
+    print '<div id="chart_div"></div>';
+    require_once("graph.php");
     print "Midpoint: ";
     print_r(getMidPoint($points));
     print "<br>Average date of birth: ";
