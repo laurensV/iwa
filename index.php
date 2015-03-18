@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
+
 require_once("include/functions.php");
 require_once("include/config.php");
 require_once("libraries/sparqllib.php")

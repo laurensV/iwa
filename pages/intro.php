@@ -1,9 +1,6 @@
 This is the intro page. Choose a job cluster from the left menu.
 <?php
-	error_reporting(E_ALL);
-	ini_set('display_errors', 'On');
-
-    require_once("libraries/TwitterAPIExchange.php")
+    require_once("libraries/TwitterAPIExchange.php");
     $settings = array(
                       'oauth_access_token' => "3017875300-T4AFO9OC5J5m0zr8JTF9bvsSdH8wxCvSMFgXiKI",
                       'oauth_access_token_secret' => "zJx3lmIAw9jt1GTsSTEBuAW9da6HcBAQnSD8vlZQEzDaQ",
@@ -21,7 +18,7 @@ This is the intro page. Choose a job cluster from the left menu.
     $string = json_decode($twitter->setGetfield($getfield)
                           ->buildOauth($url, $requestMethod)
                           ->performRequest(),$assoc = TRUE);
-    if($string["errors"][0]["message"] != "") {
+    if(isset($string["errors"][0]["message"]) && $string["errors"][0]["message"] != "") {
 		echo "<h3>Sorry, there was a problem.</h3><p>Twitter returned the following error message:</p><p><em>".$string[errors][0]["message"]."</em></p>";
 		exit();
 	}
