@@ -2,8 +2,8 @@
 /**************************************************************/
 /**********************insert religion*************************/
 /**************************************************************/
-function fetch_religion($occ){
-$sparql = <<<SPARQL
+function fetch_religion($occ) {
+	$sparql = <<<SPARQL
 PREFIX dbprop: <http://dbpedia.org/property/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
@@ -21,15 +21,14 @@ CONSTRUCT {
 			?person dbpprop:religion ?religion .
 		}
 		GROUP BY ?religion
+		HAVING(COUNT(*) > 10)
 	}
 }
 SPARQL;
 
-global $graphStore, $sparqlClient;
+	global $graphStore, $sparqlClient;
 
-
-$graph = $sparqlClient->query($sparql);
-
-var_dump($graphStore->insertIntoDefault($graph, 'rdfxml'));
+	$graph = $sparqlClient->query($sparql);
+	var_dump($graphStore->insertIntoDefault($graph, 'rdfxml'));
 }
 ?>

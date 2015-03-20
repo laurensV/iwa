@@ -1,11 +1,9 @@
 <?php
-
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
-
 require_once("libraries/EasyRdf.php");
 
 // JSON-LD converts some URI's to literals - NO! bad JSONLD parser!
+// By default the JSON-LD parser requires another library anyway so using JSON-LD
+// will throw a Class not found exception.
 EasyRdf_Format::unregister("jsonld");
 
 // The next default is turtle, which is VERY slow to either parse or download.
@@ -15,8 +13,17 @@ $rdfxml->setMimeTypes(array("application/rdf+xml" => 2.0));
 
 use \EasyRdf_Graph as Graph;
 use \EasyRdf_GraphStore as GraphStore;
+use \EasyRdf_Sparql_Client as SparqlClient;
 
-$sparqlClient = new EasyRdf_Sparql_Client("http://dbpedia.org/sparql");
-$graphStore = new GraphStore('http://iwa2.cf:8080/openrdf-sesame/repositories/iwa/statements');
+if(!defined("OPEN_REMOTE_ENDPOINT") || OPEN_REMOTE_ENDPOINT) {
+	$sparqlClient = new SparqlClient(REMOTE_SPARQL_ENDPOINT);
+}
+if(!defined("OPEN_LOCAL_GRAPHSTORE") || OPEN_LOCAL_GRAPHSTORE) {
+	$graphStore = new GraphStore(LOCAL_UPDATE_ENDPOINT);
+}
 
+// Delete script only requires the local endpoint.
+if(defined("OPEN_LOCAL_ENDPOINT") && OPEN_LOCAL_ENDPOINT) {
+	$localClient = new SparqlClient(LOCAL_UPDATE_ENDPOINT);
+}
 ?>
