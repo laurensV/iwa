@@ -69,8 +69,6 @@ if (!isset($data)) {
     print_r(getMidPoint($points));
     print "<br>Average date of birth: ";
     print calculate_average_date($date_array);
-    print "<br>Positive tweet counts in region Amsterdam (50km area):";
-    require_once("twitter.php");
     print "<br>Persons with this occupation: $persons_table";
 }
 ?>

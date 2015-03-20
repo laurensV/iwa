@@ -22,7 +22,7 @@ if (!isset($data)) {
 } else {
     print "<ul class='occupation_list'>";
     foreach ($data as $row) {
-        print "<li><a href='index.php?p=job_profile&q=" . urlencode($row['occ']) . "&n=".$row['name']."'>" . $row['name'] . "</a></li>";
+        print "<li><a href='index.php?p=job_profile&q=" . urlencode($row['occ']) . "&n=".$row['name']."'>" . $row['name'] . "</a> | <a href='index.php?p=fetch_profile&q=" . urlencode($row['occ']) . "&n=".$row['name']."'>fetch</a></li>";
     }
     print "</ul>";
 }
