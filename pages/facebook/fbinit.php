@@ -40,8 +40,12 @@ if(!isset($_SESSION['FB_TOKEN'])) {
 }
 $loggedin = true;
 if(!$session) {
+
 ?>
-<a href="<?php echo $helper->getLoginUrl(array('public_profile', 'user_religion_politics', 'user_location')); ?>">Facebook login</a>
+
+        <p class="lead"><?php require_once("pages/intro.php"); ?></p>
+        <p><a class="btn btn-lg btn-success" role="button" href="<?php echo $helper->getLoginUrl(array('public_profile', 'user_religion_politics', 'user_location')); ?>">Facebook login</a></p>
+
 <?php
 	$loggedin = false;
 }

@@ -1,0 +1,36 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix iwa: <http://iwa2.cf/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+iwa:IntegerAbove80 rdf:type rdfs:Datatype ; 
+   owl:onDatatype xsd:integer ; 
+   owl:withRestrictions ( [ xsd:minInclusive "80"^^xsd:integer ] ) .
+
+iwa:FunJob 				rdf:type				owl:Class ; 
+						owl:equivalentClass		[rdf:type			owl:Restriction ;
+   												 owl:onProperty 	iwa:fun ; 
+   												 owl:hasValue 		"100"^^xsd:integer] ;
+   						rdfs:subClassOf			iwa:Occupation .
+
+iwa:DangerJob			rdf:type				owl:Class ; 
+						owl:equivalentClass		[rdf:type			owl:Restriction ;
+   												 owl:onProperty 	iwa:danger ; 
+   												 owl:hasValue 		"100"^^xsd:integer] ;
+   						rdfs:subClassOf			iwa:Occupation .
+
+iwa:RichJob 			rdf:type				owl:Class ; 
+						owl:equivalentClass		[rdf:type			owl:Restriction ;
+   												 owl:onProperty 	iwa:rich ; 
+   												 owl:hasValue 		"100"^^xsd:integer] ;
+   						rdfs:subClassOf			iwa:Occupation .
+
+iwa:BoringJob          rdf:type          owl:Class ; 
+                  owl:equivalentClass     [rdf:type         owl:Restriction ;
+                                        owl:onProperty   iwa:boring ; 
+                                        owl:hasValue     "100"^^xsd:integer] ;
+                     rdfs:subClassOf         iwa:Occupation .
+
+iwa:AwesomeJob owl:equivalentClass
+      [ owl:intersectionOf (iwa:FunJob iwa:RichJob) ] .

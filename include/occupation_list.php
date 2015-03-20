@@ -20,9 +20,9 @@ $data = sparql_get("http://dbpedia.org/sparql", $sparql);
 if (!isset($data)) {
     print "<p>Error: " . sparql_errno() . ": " . sparql_error() . "</p>";
 } else {
-    print "<ul class='occupation_list'>";
+    print "<ul class='nav nav-sidebar'>";
     foreach ($data as $row) {
-        print "<li><a href='index.php?p=job_profile&q=" . urlencode($row['occ']) . "&n=".$row['name']."'>" . $row['name'] . "</a> | <a href='index.php?p=fetch_profile&q=" . urlencode($row['occ']) . "&n=".$row['name']."'>fetch</a></li>";
+        print "<li><a href='index.php?p=job_profile&q=" . urlencode($row['occ']) . "&n=".urlencode($row['name'])."'>" . $row['name'] . "</a> <a class='fetch' href='index.php?p=fetch_profile&q=" . urlencode($row['occ']) . "&n=".$row['name']."'>fetch</a></li>";
     }
     print "</ul>";
 }

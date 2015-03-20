@@ -69,9 +69,10 @@ if (!isset($data)) {
 
 
         var options = {
-          title: 'Number of People with this job',
+          title: '',
           width: 900,
           height: 500,
+          backgroundColor: '#eeeeee',
           hAxis: {
             format: 'yyyy',
             gridlines: {count: 15}

@@ -59,6 +59,11 @@ function calculate_average_date($dates) {
     $average_diff = round(($total / count($dates)));
     $average_diff = "".$average_diff." seconds";
     $now->sub(DateInterval::createFromDateString($average_diff));
-    echo date_format($now, 'Y-m-d');
+    echo "<p>".date_format($now, 'Y-m-d')."</p>";
+}
+
+function endsWith($haystack, $needle) {
+    // search forward starting from end minus needle length characters
+    return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
 }
 ?>

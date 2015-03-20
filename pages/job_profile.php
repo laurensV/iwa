@@ -14,19 +14,20 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX grs: <http://www.georss.org/georss/>
 
-SELECT DISTINCT ?person ?date ?religion ?gender (SAMPLE(?geo) as ?point)
+SELECT DISTINCT ?person ?img ?date ?religion ?gender (SAMPLE(?geo) as ?point)
 WHERE { 
    ?occ dcterms:subject <{$occ}> .
    ?person dbpedia-owl:occupation ?occ.
+   OPTIONAL {?person dbpedia-owl:thumbnail ?img. }
    OPTIONAL {?person dbpedia-owl:birthDate ?date.}
    OPTIONAL {?person dbpprop:religion ?religion.}
    OPTIONAL {?person dbpedia-owl:birthPlace ?place.
    			 ?place grs:point ?geo. }
    OPTIONAL {?person dbpprop:gender ?gender.}
-} GROUP BY ?person ?date ?religion ?point ?gender
+} GROUP BY ?person ?img ?date ?religion ?point ?gender
 SPARQL;
 
-$data = sparql_get("http://dbpedia.org/sparql", $sparql);
+$data = sparql_get(REMOTE_SPARQL_ENDPOINT, $sparql);
 
 if (!isset($data)) {
     print "<p>Error: " . sparql_errno() . ": " . sparql_error() . "</p>";
@@ -34,6 +35,7 @@ if (!isset($data)) {
     /* Get all geocoordinates of birth places */
     $points = array();
     $date_array = array();
+    $img_array = array();
     foreach ($data as $row) {
         if (isset($row['point'])) {
             $latlon = explode(" ", $row['point']);
@@ -43,7 +45,16 @@ if (!isset($data)) {
 
             $date_array[] = substr($row['date'],0,10);
         }
+        if(isset($row['img'])){
+            $img_array[] = $row['img'];
+        }
     }
+
+    $images = "<div class='images'>";
+    foreach($img_array as $img){
+        $images .= "<img src=$img height=\"150\" width=\"100\">";
+    }
+    $images .= "</div>";
     
     $persons_table = "<table class='persons'>";
     $persons_table.= "<tr>";
@@ -63,13 +74,19 @@ if (!isset($data)) {
     $persons_table.= "</table>";
 
     print "<h2>$occ_name Profile</h2>";
-    print '<div id="chart_div"></div>';
+    require_once("local_info_occ.php");
+    print "<h3>Timeline of number of people</h3>";
+    print '<div id="chart_div">waiting for graph..</div>';
     require_once("graph.php");
-    print "Midpoint: ";
-    print_r(getMidPoint($points));
-    print "<br>Average date of birth: ";
-    print calculate_average_date($date_array);
-    print "<br>Persons with this occupation: $persons_table";
+    print "<h3>Average birth location</h3>";
+    $midpoint = getMidPoint($points);
+    print "<p>Latitude: ".$midpoint['latitude'].", Longitude: ".$midpoint['longitude'];
+    print "<h3>Average date of birth</h3>";
+    print "<p>".calculate_average_date($date_array)."</p>";
+    print "<h3>Total number of People</h3>";
+    print "<p>".sizeof($data)."</p>";
+    print $images;
+    //print "<br>Persons with this occupation: $persons_table";
 }
 ?>
 
