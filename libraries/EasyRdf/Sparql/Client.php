@@ -251,10 +251,19 @@ class EasyRdf_Sparql_Client
         $client->setHeaders('Accept', $accept);
 
         if ($type == 'update') {
-            $client->setMethod('POST');
-            $client->setUri($this->updateUri);
-            $client->setRawData($prefixes . $query);
-            $client->setHeaders('Content-Type', 'application/sparql-update');
+			// OpenRDF Sesame server does not accept application/sparql-update.
+            // $client->setMethod('POST');
+            // $client->setUri($this->updateUri);
+            // $client->setRawData($prefixes . $query);
+            // $client->setHeaders('Content-Type', 'application/sparql-update');
+
+			// It does accept application/x-www-form-urlencoded with an encoded
+			// query using update={encoded query} instead of query={encoded query}.
+			$encodedQuery = 'update='.urlencode($prefixes . $query);
+			$client->setMethod('POST');
+            $client->setUri($this->queryUri);
+            $client->setRawData($encodedQuery);
+            $client->setHeaders('Content-Type', 'application/x-www-form-urlencoded');
         } elseif ($type == 'query') {
             // Use GET if the query is less than 2kB
             // 2046 = 2kB minus 1 for '?' and 1 for NULL-terminated string on server
